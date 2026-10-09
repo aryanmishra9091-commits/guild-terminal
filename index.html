@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>V-Guild Terminal</title>
+  <!-- Telegram WebApp Script -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; }
+    body {
+      background: #090a0f;
+      color: #ffcc00;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    .badge {
+      background: #ffcc00;
+      color: #000;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      display: inline-block;
+      margin-bottom: 8px;
+      box-shadow: 0 0 12px #ffcc00aa;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .header h1 {
+      font-size: 22px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px #ffcc00;
+    }
+    .terminal-box {
+      width: 100%;
+      max-width: 420px;
+      background: #11141c;
+      border: 1px solid #ffcc0044;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 0 25px rgba(255, 204, 0, 0.15);
+    }
+    .screen {
+      background: #050608;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 120px;
+      color: #00ff88;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      white-space: pre-wrap;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    input {
+      background: #050608;
+      border: 1px solid #ffcc0066;
+      border-radius: 6px;
+      padding: 12px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    input:focus { border-color: #ffcc00; }
+    .btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    button {
+      background: transparent;
+      border: 1px solid #ffcc00;
+      color: #ffcc00;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    button:active {
+      background: #ffcc00;
+      color: #000;
+      transform: scale(0.97);
+    }
+    .full-btn {
+      grid-column: span 2;
+      background: #ffcc00;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <span class="badge">[V] VERIFIED ACCESS</span>
+    <h1>SYNDICATE TERMINAL</h1>
+    <p style="font-size: 11px; color: #888;">STATUS: ONLINE // ENCRYPTED NODE</p>
+  </div>
+
+  <div class="terminal-box">
+    <div class="screen" id="consoleScreen">> SYSTEM INITIALIZED...
+> WAITING FOR AGENT INPUT.</div>
+
+    <div class="input-group">
+      <input type="text" id="uidInput" placeholder="Enter Free Fire UID..." />
+    </div>
+
+    <div class="btn-grid">
+      <button onclick="scanUID()">SCAN UID</button>
+      <button onclick="checkRoom()">LIVE ROOMS</button>
+      <button onclick="checkBlacklist()">FRAUD CHECK</button>
+      <button onclick="applyGuild()">APPLY ROSTER</button>
+      <button class="full-btn" onclick="sendToTelegram()">TRANSMIT TO HQ</button>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const screen = document.getElementById('consoleScreen');
+
+    function log(text) {
+      screen.innerHTML = `> ${text}\n` + screen.innerHTML;
+    }
+
+    function scanUID() {
+      const uid = document.getElementById('uidInput').value.trim();
+      if (!uid) {
+        log("[ERROR]: Please enter target UID first.");
+        return;
+      }
+      log(`Scanning UID: ${uid}...`);
+      setTimeout(() => {
+        log(`[SUCCESS] TARGET ACQUIRED.\nLEVEL: 72 | KD: 4.8 | TIER: MASTER\nSTATUS: ELIGIBLE FOR 1v1 EVALUATION.`);
+      }, 700);
+    }
+
+    function checkRoom() {
+      log("[ROOM FETCH] ACTIVE ROOMS:\nID: 9942011 | PASS: 1234\nMODE: 4v4 CS | STATUS: 1 SLOT LEFT");
+    }
+
+    function checkBlacklist() {
+      const uid = document.getElementById('uidInput').value.trim();
+      if (uid === "12345678") {
+        log("[ALERT]: UID MARKED AS SCAMMER IN CENTRAL DATABASE!");
+      } else {
+        log("[SAFE]: No fraud history found for this UID.");
+      }
+    }
+
+    function applyGuild() {
+      log("[APPLICATION]: Initiating background review protocol. Fill verification form.");
+    }
+
+    function sendToTelegram() {
+      const uid = document.getElementById('uidInput').value.trim();
+      if (!uid) {
+        alert("Enter UID first!");
+        return;
+      }
+      tg.sendData(JSON.stringify({ action: "UID_SUBMITTED", uid: uid }));
+    }
+  </script>
+</body>
+</html>
